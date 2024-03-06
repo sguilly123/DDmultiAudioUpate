@@ -4,6 +4,16 @@
 # 3. Will create files Reader.txt (Author) and Desc.txt (comments) using metadata from audiofiles
 # 4. If a folder.jpg exist it will copy to cover.jpg and if folder.jpg width is larger 800 it will copy to the name of the "<artist> - <album>.HR.jpg"    
 
+##########
+# PreReqs
+##########
+# Requires TagLibSharp.dll in the same directory as the script, prebuilt DLL grab from: https://github.com/mono/taglib-sharp
+# Requires Tone.exe in the same directory as the script, grab from: https://github.com/sandreas/tone
+# Requires Powershell module MediaInfo, install module from Admin PoSH run: Install-Module -name get-mediainfo
+
+########
+# Usage
+########
 # Drag parent folder that has multiple subfolders containing audio files onto the BAT file (named the same as the PS1 script)
 
 [CmdletBinding()]
@@ -11,9 +21,6 @@ param (
     [Parameter(ValueFromRemainingArguments=$true)]
     $Path
 )
-## Requires TagLibSharp.dll in the same directory as the script, prebuilt DLL grab from: https://github.com/mono/taglib-sharp
-## Requires Tone.exe in the same directory as the script, grab from: https://github.com/sandreas/tone
-## Requires Powershell module MediaInfo, install module from Admin PoSH run: Install-Module -name get-mediainfo
 
 $scriptpath = $MyInvocation.MyCommand.path
 $dir = Split-Path $scriptpath
