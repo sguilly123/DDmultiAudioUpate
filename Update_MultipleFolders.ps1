@@ -1,10 +1,18 @@
-﻿[CmdletBinding()]
+# This script is to be primarily used with Audiobooks, will do the following.
+# 1. Create seperate NFO files using the metadata from the first audio file scanned in each directory.
+# 2. If an CUE file exists in the same folder as a M4B it will update the file path in the CUE file if needed and count the numbr or "Chapter" references. 
+# 3. Will create files Reader.txt (Author) and Desc.txt (comments) using metadata from audiofiles
+# 4. If a folder.jpg exist it will copy to cover.jpg and if folder.jpg width is larger 800 it will copy to the name of the "<artist> - <album>.HR.jpg"    
+
+# Drag parent folder that has multiple subfolders containing audio files onto the CMD file (named the same as the PS1 script)
+
+[CmdletBinding()]
 param (
     [Parameter(ValueFromRemainingArguments=$true)]
     $Path
 )
-## Requires TagLibSharp.dll in the same direcotry as the script, prebuilt DLL grab from: https://github.com/mono/taglib-sharp
-## Requires Tone.exe in the same direcotry as the script, grab from: https://github.com/sandreas/tone
+## Requires TagLibSharp.dll in the same directory as the script, prebuilt DLL grab from: https://github.com/mono/taglib-sharp
+## Requires Tone.exe in the same directory as the script, grab from: https://github.com/sandreas/tone
 ## Requires Powershell module MediaInfo, install module from Admin PoSH run: Install-Module -name get-mediainfo
 
 $scriptpath = $MyInvocation.MyCommand.path
@@ -40,13 +48,9 @@ Function Get-AudioDetails {
 
 $pattern = "\.(mp4|mp3|m4b|m4a)$"
 
-
-#$targetDir = "D:\Temp\a\Kevin J. Anderson - 2013 - Dragon Business Adventure, BK 01 - The Dragon Business - {James Langton}"
-
-
 #$targetDir = (Get-ChildItem  -LiteralPath $path -Recurse -Directory).FullName
-
 #$path = "L:\@Audiobooks\Amir D. Aczel"
+
 $targetDir = Get-ChildItem -LiteralPath $path -Recurse | Where-Object{ $_.PSIsContainer } | Select-Object FullName | ForEach-Object{$_.fullname}
 
 #$targetDir = $path
@@ -72,8 +76,6 @@ $targetDir = Get-ChildItem -LiteralPath $path -Recurse | Where-Object{ $_.PSIsCo
     #$backupNFOExists = Test-Path $backupNFO
     #$imageHRExists = Test-Path  -LiteralPath "$folder\$imageHR"
 
-    #$folder
-    #$fileShort
     $duration2    = ""
     $narrator     = ""
     $comments     = ""
@@ -227,12 +229,10 @@ $targetDir = Get-ChildItem -LiteralPath $path -Recurse | Where-Object{ $_.PSIsCo
         if($null -eq $publisher){
         $publisher = $publishr
         }
-
-
     
-    ##########################
-    # CUE NFO Image Filenames
-    ##########################
+    ############################
+    # CUE NFO ImageHR Filenames
+    ############################
     $fileCUE = "$artist - $album.cue"
     $fileNFO = "$artist - $album.nfo"    
     $imageHR = "$artist - $album.HR.jpg"
@@ -361,15 +361,14 @@ $comments
 
 } # Write out NFO file
 
-    If (!($imageHRExits)-and($FolderJPGExists)){
+    ##########
     #$imageHD
+    ##########
+    If (!($imageHRExits)-and($FolderJPGExists)){
     $Image = [System.Drawing.Image]::FromFile("$folder\folder.jpg")
     $ImageWidth = $Image.Width
     $Image.Dispose()
         If ($ImageWidth -gt 800){
-        #$folder
-         #$imRpt = "+NEW + $imageHD"
-         #$imRpt
          Copy-Item -literalpath "$folder\folder.jpg" "$folder\$imageHR" -Force
          #Write-Host "HR image created $imageHR" -ForegroundColor green
          }
