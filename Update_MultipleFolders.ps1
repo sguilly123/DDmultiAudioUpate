@@ -262,8 +262,7 @@ $targetDir = Get-ChildItem -LiteralPath $path -Recurse | Where-Object{ $_.PSIsCo
         #$seriesNum = $seriesNum.Replace("BK 0","#").Replace("BK 1","#1")
         #$series = "$series2 $seriesNum"
         $title = $title.Trim()
-        
-        }
+    }
     Else{$title = $album}
 
     ###################################
