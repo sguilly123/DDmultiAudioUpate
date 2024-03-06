@@ -3,7 +3,7 @@ param (
     [Parameter(ValueFromRemainingArguments=$true)]
     $Path
 )
-# Requires TagLibSharp.dll in the same direcotry as the Ps1
+## Requires TagLibSharp.dll in the same direcotry as the Ps1
 # Install the powershell mediainfo module from Admin PoSH run: Install-Module -name get-mediainfo
 
 $scriptpath = $MyInvocation.MyCommand.path
