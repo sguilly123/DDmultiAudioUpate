@@ -49,11 +49,12 @@ Function Get-AudioDetails {
 $pattern = "\.(mp4|mp3|m4b|m4a)$"
 
 #$targetDir = (Get-ChildItem  -LiteralPath $path -Recurse -Directory).FullName
-#$path = "L:\@Audiobooks\Amir D. Aczel"
+
+# Manual updates uncomment
+#$path = "L:\@Audiobooks\<Author>"
+#$targetDir = $path
 
 $targetDir = Get-ChildItem -LiteralPath $path -Recurse | Where-Object{ $_.PSIsContainer } | Select-Object FullName | ForEach-Object{$_.fullname}
-
-#$targetDir = $path
  foreach ($folder in $targetDir){
 
    Get-ChildItem -LiteralPath $folder -recurse | Where-Object {$_.name -match $pattern} |
@@ -70,7 +71,6 @@ $targetDir = Get-ChildItem -LiteralPath $path -Recurse | Where-Object{ $_.PSIsCo
     $FileExists = Test-Path  -LiteralPath "$folder\reader.txt"
     $CoverJPGExists = Test-Path  -LiteralPath "$folder\cover.jpg"
     $fileNFOExist = (Get-ChildItem -Path $folder -force | Where-Object Extension -in ('.nfo') | Measure-Object).Count -ne 0
-
 
     #$backupNFO = "$folder\$fileNFO" + '.txt'
     #$backupNFOExists = Test-Path $backupNFO
@@ -205,7 +205,6 @@ $targetDir = Get-ChildItem -LiteralPath $path -Recurse | Where-Object{ $_.PSIsCo
             $encodingTool = $encodingToolTone
         }
 
-
         if ($null -ne $album){
         $album = $album.Replace(';',',').Replace(':','')
         }
@@ -223,7 +222,6 @@ $targetDir = Get-ChildItem -LiteralPath $path -Recurse | Where-Object{ $_.PSIsCo
             $pubdate3 = $pubdate2.Split(' ')
             $copyDate = $pubdate3[0]
             $publishr = $pubdate3[1,2,3]
-
         }
 
         if($null -eq $publisher){
