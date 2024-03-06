@@ -4,7 +4,7 @@
 # 3. Will create files Reader.txt (Author) and Desc.txt (comments) using metadata from audiofiles
 # 4. If a folder.jpg exist it will copy to cover.jpg and if folder.jpg width is larger 800 it will copy to the name of the "<artist> - <album>.HR.jpg"    
 
-# Drag parent folder that has multiple subfolders containing audio files onto the CMD file (named the same as the PS1 script)
+# Drag parent folder that has multiple subfolders containing audio files onto the BAT file (named the same as the PS1 script)
 
 [CmdletBinding()]
 param (
